@@ -1,0 +1,23 @@
+# Compiled object files
+*.o
+*.obj
+
+# Executables
+a.out
+*.out
+*.exe
+
+# Build directories
+build/
+bin/
+dist/
+
+# Debug files
+*.dSYM/
+
+# Editor/IDE files
+*.swp
+*~
+.vscode/
+.idea/
+*.code-workspace
