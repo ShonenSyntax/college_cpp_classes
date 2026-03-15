@@ -1,82 +1,73 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 
+void merge(int arr[],int left,int mid, int right){
+    int L = mid - left + 1;
+    int R = right - mid;
 
-void merge(vector <int>& arr,int left,int mid, int right){
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
+    int arr1[L];
+    int arr2[R];
 
-    //Creating temp vectors
-    vector <int> L(n1),R(n2);
+    for(int i=0;i<L;i++){
+        arr1[i] = arr[left + i];
+    }
 
-    for(int i=0;i<n1;i++)
-        L[i] = arr[left + i];
-    for (int j=0;j<n2;j++)
-        R[j] = arr[mid + 1 + j];
+    for (int j=0;j<R;j++){
+        arr2[j] = arr[mid+1 + j];
+    }
+    int i=0,j=0,k=left;
 
-    int i = 0, j = 0;
-    int k = left;
-
-    //Merge the temp vectors back
-    //into arr[left...right]
-
-    while(i<n1 && j<n2){
-        if(L[i] <= R[j]){
-            arr[k] = L[i];
+    while(i<L && j<R){
+        if(arr1[i]<arr2[j]){
+            arr[k] = arr1[i];
             i++;
         }
+
         else{
-            arr[k] = R[j];
+            arr[k] = arr2[j];
             j++;
         }
+
         k++;
     }
 
-    //copy the remaining elements of L and R
-    while(i<n1){
-        arr[k] = L[i];
+    while(i<L){
+        arr[k] = arr1[i];
         i++;
         k++;
     }
 
-    while(j<n2){
-        arr[k] = R[j];
+    while(j<R){
+        arr[k] = arr2[j];
         j++;
         k++;
     }
-
 }
 
-void mergesort(vector <int>& arr,int left,int right){
-
-    if (left < right){
-
-        int mid = left + (right-left)/2;
-        mergesort(arr,left,mid);
-        mergesort(arr,mid+1,right);
+void merge_sort(int arr[],int left,int right){
+    if(left<right){
+        int mid = (left + right)/2;
+        merge_sort(arr,left,mid);
+        merge_sort(arr,mid+1,right);
         merge(arr,left,mid,right);
     }
 }
 
 int main(){
     int size;
-    cout << "Enter the size of the Vector: ";
+    cout << "Enter the size of the array: ";
     cin >> size;
-    vector <int> arr(size);
-    cout << "Enter the elements of the Vector: " << endl;
-    for ( int i=0;i<size;i++){
+    int arr[size];
+    cout << "Enter the elements of the array: " << endl;
+    for(int i=0;i<size;i++)
         cin >> arr[i];
-    }
-    cout << "\nBefore Merge: ";
-    for (int x : arr)
-        cout << x << " ";
-    
-    mergesort(arr,0,arr.size()-1);
 
-    cout << "\nAfter Merge: ";
-    for(int x : arr)
-        cout << x << " ";
+    merge_sort(arr,0,size-1);
+
+    cout << "\n\n";
+    for(int i=0;i<size;i++)
+        cout << arr[i] << " ";
 
     return 0;
+    
 }
