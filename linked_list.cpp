@@ -116,13 +116,40 @@ node* insert_pos(node* head,int pos,int value){
     if(t==NULL){
         return head;
     }
-    
+
     newNode->next = t->next;
     t->next = newNode;
 
     return head;
 }
 
+node* delete_pos(node* head,int pos){
+    if(head == NULL){
+        return NULL;
+    }
+    if(head->next == NULL && pos == 1){
+        delete head;
+        return NULL;
+    } 
+    if(pos == 1){
+        node* temp = head;
+        head = head->next;
+        delete temp;
+        return head;
+    }
+
+    node* t = head;
+    for(int i=1;i<pos-1 && t!=NULL;i++){
+        t = t->next;
+    }
+    if(t==NULL || t->next==NULL){
+        return head;
+    }
+    node* temp = t->next;
+    t->next = t->next->next;
+    delete temp;
+    return head;
+}
 
 int main(){
     node* head = create_node(10);
@@ -133,7 +160,7 @@ int main(){
     n2 -> next = n3;
     n3 -> next = n4;
     
-    insert_pos(head,3,60);
+    head = delete_pos(head,3);
     traverse(head);
 
     return 0;
