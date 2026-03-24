@@ -6,7 +6,7 @@ struct node{
     node* next;
 };
 
-struct node* create_node(int x){
+node* create_node(int x){
     node* n = new node;
     n -> data = x;
     n -> next = NULL;
@@ -96,15 +96,44 @@ node* delete_end(node* head){
     return head;
 }
 
+node* insert_pos(node* head,int pos,int value){
+    node* newNode = new node;
+    newNode -> data = value;
+    newNode -> next = NULL;
+
+    if(head == NULL && pos == 1){
+        return newNode;
+    }
+    if(pos == 1){
+        newNode -> next = head;
+        return newNode;
+    }
+    node* t = head;
+
+    for(int i=1;i<pos-1 && t!=NULL;i++){
+        t = t->next;
+    }
+    if(t==NULL){
+        return head;
+    }
+    
+    newNode->next = t->next;
+    t->next = newNode;
+
+    return head;
+}
+
+
 int main(){
     node* head = create_node(10);
     node* n2 = create_node(30);
     node* n3 = create_node(50);
+    node* n4 = create_node(75);
     head -> next = n2;
     n2 -> next = n3;
-
-    head = delete_end(head);
+    n3 -> next = n4;
     
+    insert_pos(head,3,60);
     traverse(head);
 
     return 0;
